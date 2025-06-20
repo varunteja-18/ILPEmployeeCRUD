@@ -9,6 +9,8 @@ namespace Microsoft.ILP2025.EmployeeCRUD.Repositores
 {
     public class EmployeeRepository : IEmployeeRepository
     {
+        static List<EmployeeEntity> employees = new List<EmployeeEntity>();
+
         public async Task<List<EmployeeEntity>> GetAllEmployees()
         {
             return await Task.FromResult(this.GetEmployees());
@@ -23,12 +25,39 @@ namespace Microsoft.ILP2025.EmployeeCRUD.Repositores
 
         private List<EmployeeEntity> GetEmployees()
         {
-            var employees = new List<EmployeeEntity>();
 
-            employees.Add(new EmployeeEntity { Id = 1, Name = "Pradip" });
-            employees.Add(new EmployeeEntity { Id = 2, Name = "Shrikanth" });
+            // employees.Add(new EmployeeEntity { Id = 1, Name = "Pradip" });
+            // employees.Add(new EmployeeEntity { Id = 2, Name = "Shrikanth" });
 
             return employees;
         }
+        public void Create(EmployeeEntity emp)
+        {
+            employees.Add(emp);
+            Console.Write("Added Successfully");
+        }
+
+        public void Edit(EmployeeEntity emp)
+        {
+            var employee = employees.FirstOrDefault(e => e.Id == emp.Id);
+            if (employee != null)
+            {
+                employee.Id = emp.Id;
+                employee.Name = emp.Name;
+                employee.Department = emp.Department;
+                employee.Age = emp.Age;
+                employee.Salary = emp.Salary;
+                Console.Write("Updated Successfully");
+            }
+        }
+        public void Delete(EmployeeEntity emp)
+        {
+            var del = employees.FirstOrDefault(e => e.Id == emp.Id);
+            if (del != null)
+            {
+                employees.Remove(del);
+            }
+        }
+
     }
 }
